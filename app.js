@@ -7,7 +7,7 @@ var Dish = function (item, cost) {
 var Diner = function(name) {
 	this.name = name;
 	this.dishes = [];
-	this.reciept = [];
+	this.reciept = 0;
 }
 
 Diner.prototype.total = function() {  
@@ -33,6 +33,14 @@ Diner.prototype.addDish = function(dish) {
 	this.dishes.push(dish);
 }
 
+Diner.prototype.checkout = function() {
+	var dinerTotal = 
+		this.total() + 
+		this.tip(tipRate) + 
+		this.tax(taxRate);
+	this.reciept = dinerTotal;
+}
+
 var Bill = function() {
 	this.diners = [];
 }
@@ -40,12 +48,6 @@ var Bill = function() {
 Bill.prototype.addDiner = function(diner){
 	this.diners.push(diner);
 }
-
-Bill.prototype.listDiners = function() {
-	return this.diners;
-}
-
-Bill.prototype.grandTotal = function() {}
 
 var myBill = new Bill(); 
 
@@ -69,31 +71,19 @@ vic.addDish(myDish);
 var myDish = new Dish("Beans", 2);
 vic.addDish(myDish);
 
-Diner.prototype.checkout = function() {
-	var dinerTotal = 
-		this.total() + 
-		this.tip(tipRate) + 
-		this.tax(taxRate);
-	this.reciept.push(dinerTotal)
-}
-
 marley.checkout();
 honey.checkout();
 vic.checkout();
 
 Bill.prototype.totalBill = function() {
 	var total = 0;
-	for (var i = 0; i++; i < this.diners.length) {
+	for (var i = 0; i < this.diners.length; i++) {
 		total += this.diners[i].reciept
 	};
 	return total
 }
 
-console.log(myBill);
-/*console.log(marley.total());
-console.log(marley.tip(tipRate).toFixed(2));
-console.log(marley.tax(taxRate));*/
 console.log("Marley's final total is: " + marley.reciept);
 console.log("Honey's final total is: " + honey.reciept);
 console.log("Vic's final total is: " + vic.reciept);
-console.log("The final bill is " + myBill.totalBill() + " including tax and tip.")
+console.log("The final bill is " + myBill.totalBill().toFixed(2) + " including tax and tip.")
